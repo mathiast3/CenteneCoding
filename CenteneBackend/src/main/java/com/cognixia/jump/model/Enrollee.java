@@ -1,17 +1,22 @@
 package com.cognixia.jump.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class Enrollee implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	// Auto increment
+	// MongoDb ObjectId as PK
 	private @Id ObjectId id;
+
+	@DBRef
+	private List<EnrolleeInfo> information;
 
 	private boolean active;
 
@@ -40,6 +45,14 @@ public class Enrollee implements Serializable {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public List<EnrolleeInfo> getInformation() {
+		return information;
+	}
+
+	public void setInformation(List<EnrolleeInfo> information) {
+		this.information = information;
 	}
 
 }
