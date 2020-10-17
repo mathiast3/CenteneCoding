@@ -1,6 +1,7 @@
 package com.cognixia.jump.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -13,30 +14,31 @@ public class Enrollee implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	// MongoDb ObjectId as PK
-	private @Id ObjectId id;
+	private @Id ObjectId _id;
 
 	@DBRef
 	private List<EnrolleeInfo> information;
 
 	private boolean active;
 
-	public Enrollee(ObjectId id, boolean active) {
+	public Enrollee(ObjectId _id, List<EnrolleeInfo> information, boolean active) {
 		super();
-		this.id = id;
+		this._id = _id;
+		this.information = information;
 		this.active = active;
 	}
 
 	// Default constructor
 	public Enrollee() {
-		this(new ObjectId(), false);
+		this(new ObjectId(), new ArrayList<EnrolleeInfo>(), false);
 	}
 
 	public ObjectId getId() {
-		return id;
+		return _id;
 	}
 
-	public void setId(ObjectId id) {
-		this.id = id;
+	public void setId(ObjectId _id) {
+		this._id = _id;
 	}
 
 	public boolean isActive() {

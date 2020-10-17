@@ -2,6 +2,7 @@ package com.cognixia.jump.controller;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,16 +28,21 @@ public class EnrolleeController {
 		return service.getAllEnrollees();
 	}
 
-	@GetMapping("/enrollee/{id}")
-	public Enrollee getEnrollee(@PathVariable Long id) {
+	@GetMapping("/enrollee/{_id}")
+	public Enrollee getEnrollee(@PathVariable ObjectId _id) {
 
-		Enrollee enrollee = service.getEnrolleeById(id);
+		Enrollee enrollee = service.getEnrolleeById(_id);
 
 		return enrollee;
 	}
 
 	@PostMapping("/enrollee/add")
 	public void addCourse(@RequestBody Enrollee enrollee) {
+
+		/*
+		 * for (EnrolleeInfo info : enrollee.getInformation()) {
+		 * service.addEnrolleeInfo(info); }
+		 */
 		service.addEnrollee(enrollee);
 		System.out.println(enrollee);
 	}
