@@ -2,23 +2,20 @@ package com.cognixia.jump.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
+@Document
 public class Enrollee implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	// Auto increment
-	private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
+	private @Id ObjectId id;
 
-	@Column(nullable = false)
 	private boolean active;
 
-	public Enrollee(Long id, boolean active) {
+	public Enrollee(ObjectId id, boolean active) {
 		super();
 		this.id = id;
 		this.active = active;
@@ -26,7 +23,23 @@ public class Enrollee implements Serializable {
 
 	// Default constructor
 	public Enrollee() {
-		this(1L, false);
+		this(new ObjectId(), false);
+	}
+
+	public ObjectId getId() {
+		return id;
+	}
+
+	public void setId(ObjectId id) {
+		this.id = id;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 }
