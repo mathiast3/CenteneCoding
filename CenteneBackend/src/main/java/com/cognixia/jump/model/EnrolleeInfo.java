@@ -3,6 +3,7 @@ package com.cognixia.jump.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -14,7 +15,7 @@ public class EnrolleeInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	// MongoDb ObjectId as PK
-	private @Id Integer id;
+	private @Id ObjectId _id;
 
 	private String firstName;
 
@@ -25,9 +26,9 @@ public class EnrolleeInfo implements Serializable {
 
 	private String phone;
 
-	public EnrolleeInfo(Integer id, String firstName, String lastName, LocalDate birthday, String phone) {
+	public EnrolleeInfo(ObjectId _id, String firstName, String lastName, LocalDate birthday, String phone) {
 		super();
-		this.id = id;
+		this._id = _id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthday = birthday;
@@ -35,15 +36,15 @@ public class EnrolleeInfo implements Serializable {
 	}
 
 	public EnrolleeInfo() {
-		this(-1, "N/A", "N/A", LocalDate.parse("2020-01-08"), "N/A");
+		this(new ObjectId(), "N/A", "N/A", LocalDate.parse("2020-01-08"), "N/A");
 	}
 
-	public Integer getId() {
-		return id;
+	public ObjectId get_id() {
+		return _id;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void set_id(ObjectId _id) {
+		this._id = _id;
 	}
 
 	public String getFirstName() {

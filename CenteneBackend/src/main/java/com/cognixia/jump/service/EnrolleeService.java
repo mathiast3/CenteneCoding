@@ -39,9 +39,60 @@ public class EnrolleeService {
 			infoRepository.save(enrolleeInfo);
 		}
 		// zooDB.add(newAnimal);
+		enrollee.setId(ObjectId.get());
 		repository.save(enrollee);
 
 		return enrollee;
+	}
+
+	public void delete(Enrollee enrollee) {
+		// remove all dependents
+
+		List<EnrolleeInfo> info = enrollee.getInformation();
+		for (EnrolleeInfo enrolleeInfo : info) {
+			infoRepository.delete(enrolleeInfo);
+		}
+
+		repository.delete(enrollee);
+	}
+
+	public String update(ObjectId id, Enrollee enrollee) {
+		// insert enrollee dependents into db
+		List<EnrolleeInfo> info = enrollee.getInformation();
+		for (EnrolleeInfo enrolleeInfo : info) {
+			infoRepository.save(enrolleeInfo);
+		}
+		// set id of the object we are changing
+		enrollee.setId(id);
+		repository.save(enrollee);
+
+		return enrollee.toString();
+
+	}
+
+	public void addInfo(Enrollee enrollee, EnrolleeInfo info) {
+		enrollee.getInformation().add(info);
+		repository.save(enrollee);
+		infoRepository.save(info);
+	}
+
+	public void deleteInfo(Enrollee enrollee, EnrolleeInfo info) {
+
+		enrollee.getInformation().remove(info);
+		infoRepository.delete(info);
+	}
+
+	public void updateInfo(EnrolleeInfo oldInfo, EnrolleeInfo newInfo) {
+		oldInfo.setFirstName(newInfo.getFirstName());
+		oldInfo.setLastName(newInfo.getLastName());
+		oldInfo.setBirthday(newInfo.getBirthday());
+		oldInfo.setPhone(newInfo.getPhone());
+		infoRepository.save(oldInfo);
+	}
+
+	public EnrolleeInfo getEnrolleeInfoById(ObjectId id) {
+		EnrolleeInfo info = infoRepository.findBy_id(id);
+		return info;
 	}
 
 }
