@@ -1,6 +1,7 @@
 package com.cognixia.jump.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,14 @@ public class EnrolleeService {
 
 	// get mappings
 	public Enrollee getEnrolleeById(ObjectId id) {
-		Enrollee enrollee = repository.findBy_id(id);
 
-		return enrollee;
+		Optional<Enrollee> enrolleeOpt = repository.findBy_id(id);
+
+		if (enrolleeOpt.isPresent()) {
+			return enrolleeOpt.get();
+
+		}
+		return new Enrollee();
 	}
 
 	public List<Enrollee> getAllEnrollees() {
@@ -45,15 +51,22 @@ public class EnrolleeService {
 		return enrollee;
 	}
 
-	public void delete(Enrollee enrollee) {
+	public Enrollee delete(ObjectId id) {
 		// remove all dependents
 
-		List<EnrolleeInfo> info = enrollee.getInformation();
-		for (EnrolleeInfo enrolleeInfo : info) {
-			infoRepository.delete(enrolleeInfo);
-		}
+		Optional<Enrollee> enrolleeOpt = repository.findBy_id(id);
+		if (enrolleeOpt.isPresent()) {
+			Enrollee enrollee = enrolleeOpt.get();
+			List<EnrolleeInfo> info = enrollee.getInformation();
+			for (EnrolleeInfo enrolleeInfo : info) {
+				infoRepository.delete(enrolleeInfo);
+			}
 
-		repository.delete(enrollee);
+			repository.delete(enrollee);
+			return enrollee;
+		}
+		return new Enrollee();
+
 	}
 
 	public String update(ObjectId id, Enrollee enrollee) {
@@ -76,10 +89,17 @@ public class EnrolleeService {
 		infoRepository.save(info);
 	}
 
-	public void deleteInfo(Enrollee enrollee, EnrolleeInfo info) {
+	public EnrolleeInfo deleteInfo(ObjectId infoId) {
 
-		enrollee.getInformation().remove(info);
-		infoRepository.delete(info);
+		Optional<EnrolleeInfo> infoOpt = infoRepository.findBy_id(infoId);
+
+		if (infoOpt.isPresent()) {
+			infoRepository.delete(infoOpt.get());
+			return infoOpt.get();
+		}
+
+		return new EnrolleeInfo();
+
 	}
 
 	public void updateInfo(EnrolleeInfo oldInfo, EnrolleeInfo newInfo) {
@@ -91,8 +111,14 @@ public class EnrolleeService {
 	}
 
 	public EnrolleeInfo getEnrolleeInfoById(ObjectId id) {
-		EnrolleeInfo info = infoRepository.findBy_id(id);
-		return info;
+
+		Optional<EnrolleeInfo> infoOpt = infoRepository.findBy_id(id);
+
+		if (infoOpt.isPresent()) {
+			return infoOpt.get();
+
+		}
+		return new EnrolleeInfo();
 	}
 
 }

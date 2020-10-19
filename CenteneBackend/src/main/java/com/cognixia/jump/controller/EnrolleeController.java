@@ -28,8 +28,6 @@ public class EnrolleeController {
 
 	@GetMapping("/enrollees")
 	public List<Enrollee> getAllEnrollees() {
-		System.out.println(service.getAllEnrollees());
-
 		return service.getAllEnrollees();
 	}
 
@@ -37,7 +35,6 @@ public class EnrolleeController {
 	public Enrollee getEnrollee(@PathVariable ObjectId id) {
 
 		Enrollee enrollee = service.getEnrolleeById(id);
-
 		return enrollee;
 	}
 
@@ -59,21 +56,18 @@ public class EnrolleeController {
 
 	}
 
-	@DeleteMapping("/enrollee/delete/info/{id}")
-	public Enrollee deleteEnrolleeInfo(@PathVariable ObjectId id, @RequestBody EnrolleeInfo info) {
+	@DeleteMapping("/enrollee/delete/info/{infoId}")
+	public EnrolleeInfo deleteEnrolleeInfo(@PathVariable ObjectId infoId) {
 
-		Enrollee enrollee = service.getEnrolleeById(id);
-		service.deleteInfo(enrollee, info);
-		return enrollee;
+		return service.deleteInfo(infoId);
 
 	}
 
 	@DeleteMapping("/enrollee/delete/{id}")
 	public ResponseEntity<String> deleteEnrollee(@PathVariable ObjectId id) {
 
-		Enrollee enrollee = service.getEnrolleeById(id);
-		service.delete(enrollee);
-		return ResponseEntity.status(200).body("Deleted registration with id = " + id);
+		Enrollee enrollee = service.delete(id);
+		return ResponseEntity.status(200).body("Deleted Enrollee with id = " + id);
 
 	}
 
