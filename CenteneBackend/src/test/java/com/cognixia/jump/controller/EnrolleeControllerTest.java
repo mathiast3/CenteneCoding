@@ -34,7 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(EnrolleeController.class)
-class ReviewControllerTest {
+class EnrolleeControllerTest {
 
 	private final String STARTING_URI = "http://localhost:8080/api";
 
